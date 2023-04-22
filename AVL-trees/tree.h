@@ -1,5 +1,6 @@
 #include "node.h"
 #include <iostream>
+#include <cmath>
 using namespace std;
 class BSTree {
     node* root;
@@ -43,6 +44,13 @@ class BSTree {
             return search_node(curr->right, num);
         }
         return curr;
+    }
+
+    int balanceFactor(node *curr) {
+      int left = (curr->left != nullptr) ? curr->left->height() : 0;
+      int right = (curr->right != nullptr) ? curr->right->height() : 0;
+
+      return abs(left - right);
     }
 
     public:
