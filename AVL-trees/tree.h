@@ -157,7 +157,28 @@ class BSTree {
     //   \
     //    x <- curr
     void zigleft(node* curr) {
-      
+      node *x = curr;
+      node *y = x->parent;
+      node *grandparent = y ? y->parent : nullptr;
+      node *T2 = x->left;
+
+      if(y == root) {
+          root = x;
+          x->parent = nullptr;
+      } else {
+          if(grandparent->right == y) {
+              grandparent->right = x;
+          } else {
+              grandparent->left = x;
+          }
+          x->parent = grandparent;
+      }
+
+      y->right = T2;
+      if(T2) T2->parent = y;
+
+      x->left = y;
+      y->parent = x;  
     }
     
     // TODO implementation of rotate operation of x where
@@ -166,13 +187,41 @@ class BSTree {
     //  /
     // x <- curr
     void zigright(node* curr) {
-      
+      node *x = curr;
+      node *y = x->parent;
+      node *grandparent = y ? y->parent : nullptr;
+      node *T2 = x->right;
+
+      if(y == root) {
+          root = x;
+          x->parent = nullptr;
+      } else {
+          if(grandparent->right == y) {
+              grandparent->right = x;
+          } else {
+              grandparent->left = x;
+          }
+          x->parent = grandparent;
+      }
+
+      y->left = T2;
+      if(T2) T2->parent = y;
+
+      x->right = y;
+      y->parent = x;  
     }
 
     // GIVEN the grandparent (or z), find the parent (or y), and the child (or x).
     bool restructure(node* gp) {
         node* par; // parent
         // TODO find parent
+
+        // Identify if the parent is on the left or right of the grandparent
+        if(gp->right) {
+          par = gp->right;
+        } else {
+          par = gp->left;
+        }
 
         // This is an indicator of the placement of grandparent to parent (gtop)
         bool gtop_right = false;
@@ -182,7 +231,14 @@ class BSTree {
         
         node* child;
         // TODO find child
-        
+
+        // Identify if the child is located at the left or right of the parent  
+        if(par->right) {
+          child = par->right;
+        } else {
+          child = par->left;
+        }
+
         // This is an indicator of the placement of parent to child (ptoc)
         bool ptoc_right = false;
         if (par->right == child) {
@@ -199,6 +255,8 @@ class BSTree {
       //     x
       if (gtop_right && ptoc_right) {
         // TODO call to either zigleft or zigright or both
+        cout << "ZIGLEFT" << endl;
+        zigleft(par);
       } 
       
       // z
@@ -208,6 +266,9 @@ class BSTree {
       //   x
       else if (gtop_right && !ptoc_right) {
         // TODO call to either zigleft or zigright or both
+        cout << "ZIGZAGLEFT" << endl;
+        zigright(child);
+        zigleft(child);
       } 
       
       //     z
@@ -217,6 +278,8 @@ class BSTree {
       // x
       else if (!gtop_right && !ptoc_right) {
         // TODO call to either zigleft or zigright or both
+        cout << "ZIGRIGHT" << endl;
+        zigright(par);
       } 
       
       //      z
@@ -226,6 +289,9 @@ class BSTree {
       //    x
       else {
         // TODO call to either zigleft or zigright or both
+        cout << "ZIGZAGRIGHT" << endl;
+        zigleft(child);
+        zigright(child);
       }
       
       return true;

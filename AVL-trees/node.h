@@ -1,3 +1,5 @@
+#include <cmath>
+
 struct node {
     node* parent;
     node* right;
@@ -6,6 +8,18 @@ struct node {
 
     int height() {
         // TODO find height of this node
-        return 0;
+         if (!left && !right) {
+            return 1;
+        }
+
+        if (left && !right) {
+            return 1 + left->height();
+        }
+
+        if (!left && right) {
+            return 1 + right->height();
+        }
+
+        return 1 + fmax(left->height(), right->height());
     }
 };
