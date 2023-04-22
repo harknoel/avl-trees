@@ -157,9 +157,30 @@ class BSTree {
     //  y
     //   \
     //    x <- curr
-    void zigleft(node* curr) {
-      
-    }
+  void zigleft(node* curr) {
+      node *x = curr;
+      node *y = x->parent;
+      node *grandparent = y ? y->parent : nullptr;
+      node *T2 = x->left;
+
+      if(y == root) {
+          root = x;
+          x->parent = nullptr;
+      } else {
+          if(grandparent->right == y) {
+              grandparent->right = x;
+          } else {
+              grandparent->left = x;
+          }
+          x->parent = grandparent;
+      }
+
+      y->right = T2;
+      if(T2) T2->parent = y;
+
+      x->left = y;
+      y->parent = x;
+  }
     
     // TODO implementation of rotate operation of x where
     //   |
@@ -167,7 +188,39 @@ class BSTree {
     //  /
     // x <- curr
     void zigright(node* curr) {
-      
+      node *x = curr;
+      node *y = x->parent;
+      node *T2 = nullptr;
+      node *grandparent = y->parent ? y->parent : nullptr;
+
+      if(y == root) {
+        root = x;
+        x->parent = nullptr;
+      } else {
+
+        if(grandparent->left == y) {
+          grandparent->left = x;
+        } else {
+          grandparent->right = x;
+        }
+
+        x->parent = grandparent;
+      }
+
+      bool T2_present = false;
+      if(x->right) {
+        T2 = x->right;
+        T2_present = true;
+      }
+
+      x->right = y;
+      y->parent = x;
+
+      if(T2_present) {
+        T2->parent = y;
+      }
+
+      y->right = T2;  
     }
 
     // GIVEN the grandparent (or z), find the parent (or y), and the child (or x).
@@ -214,6 +267,7 @@ class BSTree {
       //     x
       if (gtop_right && ptoc_right) {
         // TODO call to either zigleft or zigright or both
+        zigleft(child);
       } 
       
       // z
@@ -223,6 +277,8 @@ class BSTree {
       //   x
       else if (gtop_right && !ptoc_right) {
         // TODO call to either zigleft or zigright or both
+        zigright(child);
+        zigleft(child);
       } 
       
       //     z
@@ -232,6 +288,7 @@ class BSTree {
       // x
       else if (!gtop_right && !ptoc_right) {
         // TODO call to either zigleft or zigright or both
+        zigright(child);
       } 
       
       //      z
@@ -241,6 +298,8 @@ class BSTree {
       //    x
       else {
         // TODO call to either zigleft or zigright or both
+        zigleft(child);
+        zigright(child);
       }
       
       return true;
