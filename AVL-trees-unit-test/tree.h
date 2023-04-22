@@ -218,10 +218,10 @@ class BSTree {
         // TODO find parent
 
         // Identify if the parent is on the left or right of the grandparent
-        if(gp->left) {
-          par = gp->left;
-        } else {
+        if(gp->right) {
           par = gp->right;
+        } else {
+          par = gp->left;
         }
 
         // This is an indicator of the placement of grandparent to parent (gtop)
@@ -234,10 +234,10 @@ class BSTree {
         // TODO find child
 
         // Identify if the child is located at the left or right of the parent  
-        if(par->left) {
-          child = par->left;
-        } else {
+        if(par->right) {
           child = par->right;
+        } else {
+          child = par->left;
         }
 
         // This is an indicator of the placement of parent to child (ptoc)
@@ -256,7 +256,8 @@ class BSTree {
       //     x
       if (gtop_right && ptoc_right) {
         // TODO call to either zigleft or zigright or both
-        zigleft(child);
+        cout << "ZIGLEFT" << endl;
+        zigleft(par);
       } 
       
       // z
@@ -266,6 +267,7 @@ class BSTree {
       //   x
       else if (gtop_right && !ptoc_right) {
         // TODO call to either zigleft or zigright or both
+        cout << "ZIGZAGLEFT" << endl;
         zigright(child);
         zigleft(child);
       } 
@@ -277,7 +279,8 @@ class BSTree {
       // x
       else if (!gtop_right && !ptoc_right) {
         // TODO call to either zigleft or zigright or both
-        zigright(child);
+        cout << "ZIGRIGHT" << endl;
+        zigright(par);
       } 
       
       //      z
@@ -287,6 +290,7 @@ class BSTree {
       //    x
       else {
         // TODO call to either zigleft or zigright or both
+        cout << "ZIGZAGRIGHT" << endl;
         zigleft(child);
         zigright(child);
       }
