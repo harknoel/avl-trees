@@ -157,30 +157,30 @@ class BSTree {
     //  y
     //   \
     //    x <- curr
-  void zigleft(node* curr) {
-      node *x = curr;
-      node *y = x->parent;
-      node *grandparent = y ? y->parent : nullptr;
-      node *T2 = x->left;
+    void zigleft(node* curr) {
+        node *x = curr;
+        node *y = x->parent;
+        node *grandparent = y ? y->parent : nullptr;
+        node *T2 = x->left;
 
-      if(y == root) {
-          root = x;
-          x->parent = nullptr;
-      } else {
-          if(grandparent->right == y) {
-              grandparent->right = x;
-          } else {
-              grandparent->left = x;
-          }
-          x->parent = grandparent;
-      }
+        if(y == root) {
+            root = x;
+            x->parent = nullptr;
+        } else {
+            if(grandparent->right == y) {
+                grandparent->right = x;
+            } else {
+                grandparent->left = x;
+            }
+            x->parent = grandparent;
+        }
 
-      y->right = T2;
-      if(T2) T2->parent = y;
+        y->right = T2;
+        if(T2) T2->parent = y;
 
-      x->left = y;
-      y->parent = x;
-  }
+        x->left = y;
+        y->parent = x;
+    }
     
     // TODO implementation of rotate operation of x where
     //   |
