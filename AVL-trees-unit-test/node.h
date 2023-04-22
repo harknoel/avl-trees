@@ -21,5 +21,5 @@ struct node {
         }
 
         return 1 + fmax(left->height(), right->height());
-        }
+    }
 };

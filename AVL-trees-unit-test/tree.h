@@ -190,37 +190,26 @@ class BSTree {
     void zigright(node* curr) {
       node *x = curr;
       node *y = x->parent;
-      node *T2 = nullptr;
-      node *grandparent = y->parent ? y->parent : nullptr;
+      node *grandparent = y ? y->parent : nullptr;
+      node *T2 = x->right;
 
       if(y == root) {
-        root = x;
-        x->parent = nullptr;
+          root = x;
+          x->parent = nullptr;
       } else {
-
-        if(grandparent->left == y) {
-          grandparent->left = x;
-        } else {
-          grandparent->right = x;
-        }
-
-        x->parent = grandparent;
+          if(grandparent->right == y) {
+              grandparent->right = x;
+          } else {
+              grandparent->left = x;
+          }
+          x->parent = grandparent;
       }
 
-      bool T2_present = false;
-      if(x->right) {
-        T2 = x->right;
-        T2_present = true;
-      }
+      y->left = T2;
+      if(T2) T2->parent = y;
 
       x->right = y;
       y->parent = x;
-
-      if(T2_present) {
-        T2->parent = y;
-      }
-
-      y->right = T2;  
     }
 
     // GIVEN the grandparent (or z), find the parent (or y), and the child (or x).
