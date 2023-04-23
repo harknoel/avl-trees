@@ -47,10 +47,24 @@ class BSTree {
     }
 
     int balanceFactor(node *curr) {
-      int left = (curr->left != nullptr) ? curr->left->height() : 0;
-      int right = (curr->right != nullptr) ? curr->right->height() : 0;
+        int left = (curr->left != nullptr) ? curr->left->height() : 0;
+        int right = (curr->right != nullptr) ? curr->right->height() : 0;
 
-      return abs(left - right);
+        return abs(left - right);
+    }
+
+    void check_violation(node* curr) {
+
+      int curr_left_right;
+      while(curr != NULL) {
+        curr_left_right = balanceFactor(curr);
+
+        if(curr_left_right > 1) {
+          restructure(curr);
+        }
+
+        curr = curr->parent;
+      }
     }
 
     public:
@@ -78,6 +92,11 @@ class BSTree {
                     parent->left = newest;
                 }
                 size++;
+
+                if(parent->parent) {
+                  check_violation(parent);
+                }
+
                 return true;
             }
         }
