@@ -162,7 +162,7 @@ class BSTree {
         node *y = x->parent;
         node *grandparent = y ? y->parent : nullptr;
         node *T2 = x->left;
-
+        
         if(y == root) {
             root = x;
             x->parent = nullptr;
@@ -174,12 +174,12 @@ class BSTree {
             }
             x->parent = grandparent;
         }
-
+        
         y->right = T2;
         if(T2) T2->parent = y;
-
+        
         x->left = y;
-        y->parent = x;
+        y->parent = x;  
     }
     
     // TODO implementation of rotate operation of x where
@@ -188,28 +188,28 @@ class BSTree {
     //  /
     // x <- curr
     void zigright(node* curr) {
-      node *x = curr;
-      node *y = x->parent;
-      node *grandparent = y ? y->parent : nullptr;
-      node *T2 = x->right;
-
-      if(y == root) {
+        node *x = curr;
+        node *y = x->parent;
+        node *grandparent = y ? y->parent : nullptr;
+        node *T2 = x->right;
+        
+        if(y == root) {
           root = x;
           x->parent = nullptr;
-      } else {
+        } else {
           if(grandparent->right == y) {
               grandparent->right = x;
           } else {
               grandparent->left = x;
           }
           x->parent = grandparent;
-      }
-
-      y->left = T2;
-      if(T2) T2->parent = y;
-
-      x->right = y;
-      y->parent = x;
+        }
+        
+        y->left = T2;
+        if(T2) T2->parent = y;
+        
+        x->right = y;
+        y->parent = x;
     }
 
     // GIVEN the grandparent (or z), find the parent (or y), and the child (or x).

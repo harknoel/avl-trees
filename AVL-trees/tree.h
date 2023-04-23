@@ -225,10 +225,13 @@ class BSTree {
         // TODO find parent
 
         // Identify if the parent is on the left or right of the grandparent
-        if(gp->right) {
-          par = gp->right;
-        } else {
+        int par_pos_left = (gp->left != nullptr) ? gp->left->height() : 0;
+        int par_pos_right = (gp->right != nullptr) ? gp->right->height() : 0;
+
+        if(par_pos_left > par_pos_right) {
           par = gp->left;
+        } else {
+          par = gp->right;
         }
 
         // This is an indicator of the placement of grandparent to parent (gtop)
@@ -239,12 +242,21 @@ class BSTree {
         
         node* child;
         // TODO find child
-
+        
         // Identify if the child is located at the left or right of the parent  
-        if(par->right) {
-          child = par->right;
-        } else {
+        int child_pos_left = (par->left != nullptr) ? par->left->height() : 0;
+        int child_pos_right = (par->right != nullptr) ? par->right->height() : 0;
+
+        if(child_pos_left == child_pos_right) {
+          if(!gtop_right) {
+            child = par->left;
+          } else {
+            child = par->right;
+          }
+        } else if(child_pos_left > child_pos_right) {
           child = par->left;
+        } else {
+          child = par->right;
         }
 
         // This is an indicator of the placement of parent to child (ptoc)
