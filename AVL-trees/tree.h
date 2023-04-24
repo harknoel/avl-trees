@@ -140,6 +140,8 @@ class BSTree {
             parent->right = NULL;
           }
         }
+
+        check_violation(parent);
         
         free(rem_node);
         size--;
@@ -163,6 +165,8 @@ class BSTree {
           }
         }
         
+        check_violation(child->parent);
+
         free(rem_node);
         size--;
       } else { // TWO CHILDREN
@@ -172,6 +176,9 @@ class BSTree {
         }
         
         int temp = right_st->element;
+
+        check_violation(right_st->parent);
+
         remove(temp);
         rem_node->element = temp;
       }
